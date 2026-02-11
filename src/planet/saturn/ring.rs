@@ -22,10 +22,10 @@ THE SOFTWARE.
 
 //! The ring system of Saturn
 
-use angle;
-use coords;
-use planet;
-use time;
+use crate::angle;
+use crate::coords;
+use crate::planet;
+use crate::time;
 
 #[inline]
 pub fn inc(JC: f64) -> f64 {
@@ -118,17 +118,18 @@ pub fn elements(JD: f64, nut_in_long: f64, true_oblq: f64) -> Elements {
     let inc = inc(JC);
     let ascend_node = ascend_node(JC);
 
-    let (mut lambda, mut beta) = planet::ecl_coords_frm_ecl_rect_coords(x, y, z);
+    let (lambda, beta) = planet::ecl_coords_frm_ecl_rect_coords(x, y, z);
+    let (mut lambda, mut beta): (f64, f64) = (lambda, beta); // force inference
     let B = (  inc.sin() * beta.cos() * (lambda - ascend_node).sin()
              - inc.cos() * beta.sin()
             ).asin();
     let semi_maj = angle::deg_frm_dms(0, 0, 375.35).to_radians() / saturn_earth_dist;
     let semi_min = semi_maj * B.abs().sin();
 
-    let N = (113.6655 + 0.8771*JC).to_radians();
+    let N = (113.6655_f64 + 0.8771_f64*JC).to_radians();
 
-    let l1 = l - (0.01759/r).to_radians();
-    let b1 = b - (0.000764*(l - N).cos()/r).to_radians();
+    let l1 = l - (0.01759_f64/r).to_radians();
+    let b1: f64 = b - (0.000764_f64*(l - N).cos()/r).to_radians();
 
     let B1 = (
         inc.sin() * b1.cos() * (l1 - ascend_node).sin()
@@ -146,6 +147,7 @@ pub fn elements(JD: f64, nut_in_long: f64, true_oblq: f64) -> Elements {
     ).atan2(
         beta.cos() * (lambda - ascend_node).cos()
     );
+    let (U1, U2): (f64, f64) = (U1, U2); // force inference
     let deltaU = (U1 - U2).abs();
 
     let mut lambda0 = ascend_node - 90.0_f64.to_radians();

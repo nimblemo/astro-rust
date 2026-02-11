@@ -24,10 +24,10 @@ THE SOFTWARE.
 
 pub mod moon;
 
-use angle;
-use nutation;
-use planet;
-use coords;
+use crate::angle;
+use crate::nutation;
+use crate::planet;
+use crate::coords;
 
 /**
 Computes Jupiter's equatorial semidiameter
@@ -117,7 +117,7 @@ pub fn ephemeris (
 
     let (l0, b0, R) = planet::heliocent_coords(&planet::Planet::Earth, JD);
 
-    let (mut l, mut b, mut r) = (0.0, 0.0, 0.0);
+    let (mut l, mut b, mut r) = (0.0_f64, 0.0_f64, 0.0_f64);
     let mut x;
     let mut y;
     let mut z;
@@ -149,10 +149,10 @@ pub fn ephemeris (
 
     let D_s = (-dec0.sin()*dec_s.sin() - dec0.cos()*dec_s.cos()*(asc0 - asc_s).cos()).asin();
 
-    let u = y*mn_oblq.cos() - z*mn_oblq.sin();
-    let v = y*mn_oblq.sin() + z*mn_oblq.cos();
-    let mut asc = u.atan2(x);
-    let mut dec = v.atan2((x*x + u*u).sqrt());
+    let u: f64 = y*mn_oblq.cos() - z*mn_oblq.sin();
+    let v: f64 = y*mn_oblq.sin() + z*mn_oblq.cos();
+    let asc = u.atan2(x);
+    let dec = v.atan2((x*x + u*u).sqrt());
     let zeta =
         (dec0.sin()*dec.cos()*(asc0 - asc).cos() - dec.sin()*dec0.cos())
         .atan2(dec.cos()*(asc0 - asc).sin());
@@ -165,8 +165,8 @@ pub fn ephemeris (
     let mut C =
         57.2958 * (2.0*r*jup_earth_dist + R*R - r*r - jup_earth_dist*jup_earth_dist)
       / (4.0 * r * jup_earth_dist);
-    if (l - l0).sin() < 0.0 {
-        C *= -1.0
+    if (l - l0).sin() < 0.0_f64 {
+        C *= -1.0_f64
     }
     w1 = (w1 + C).to_radians();
     w2 = (w2 + C).to_radians();
@@ -174,6 +174,7 @@ pub fn ephemeris (
     let tru_oblq = mn_oblq + nut_in_oblq;
 
     let q = 0.005693_f64.to_radians();
+    let (mut asc, l0, tru_oblq, mut dec): (f64, f64, f64, f64) = (asc, l0, tru_oblq, dec); // force inference
     asc += q * (asc.cos()*l0.cos()*tru_oblq.cos() + asc.sin()*l0.sin()) / dec.cos();
     dec += q * (  l0.cos()*tru_oblq.cos()*(tru_oblq.tan()*dec.cos()
                 - asc.sin()*asc.cos())
@@ -195,8 +196,9 @@ pub fn ephemeris (
         tru_oblq
     );
     let asc01 = asc0 + asc0_nut;
-    let dec01 = dec0 + dec0_nut;
+    let dec01: f64 = dec0 + dec0_nut;
 
+    let (dec01, asc01, asc1, dec1): (f64, f64, f64, f64) = (dec01, asc01, asc1, dec1); // force inference
     let P = (dec01.cos() * (asc01 - asc1).sin())
             .atan2(dec01.sin()*dec1.cos() - dec01.cos()*dec1.sin()*(asc01 - asc1).cos());
 

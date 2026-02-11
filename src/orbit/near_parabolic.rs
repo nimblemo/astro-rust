@@ -22,8 +22,8 @@ THE SOFTWARE.
 
 //! Near-parabolic orbits
 
-use angle;
-use consts;
+use crate::angle;
+use crate::consts;
 
 /**
 Computes the true anomaly and radius vector of a body in a near-parabolic
@@ -68,7 +68,7 @@ pub fn true_anom_and_rad_vec<'a> (
     let g = (1.0 - ecc) / (1.0 + ecc);
 
     let q2 = q1 * days_frm_perih;
-    let mut s = 2.0 / (3.0 * q2.abs());
+    let mut s: f64 = 2.0 / (3.0 * q2.abs());
     s = 2.0 / (2.0 * (s.atan() / 2.0).tan().cbrt().atan()).tan();
 
     if days_frm_perih < 0.0 { s = -s; }

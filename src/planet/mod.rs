@@ -29,9 +29,9 @@ pub mod mars;
 pub mod jupiter;
 pub mod saturn;
 
-use angle;
-use coords;
-use time;
+use crate::angle;
+use crate::coords;
+use crate::time;
 
 /// Represents a planet
 pub enum Planet {
@@ -577,7 +577,7 @@ FK5 system
 pub fn ecl_coords_to_FK5(JD: f64, ecl_long: f64, ecl_lat: f64) -> (f64, f64) {
 
     let JC = time::julian_cent(JD);
-    let lambda1 = ecl_long - JC*(1.397 + JC*0.00031).to_radians();
+    let lambda1 = ecl_long - JC*(1.397_f64 + JC*0.00031_f64).to_radians();
     let x = angle::deg_frm_dms(0, 0, 0.03916).to_radians();
 
     let ecl_long_correction = - angle::deg_frm_dms(0, 0, 0.09033).to_radians()

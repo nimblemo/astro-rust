@@ -22,9 +22,9 @@ THE SOFTWARE.
 
 //! Corrections for nutation
 
-use angle;
-use time;
-use coords;
+use crate::angle;
+use crate::time;
+use crate::coords;
 
 /**
 Computes nutation in ecliptic longitude and obliquity
@@ -171,8 +171,7 @@ are only from first-order corrections.
 pub fn nutation_in_eq_coords(eq_point: &coords::EqPoint, nut_in_long: f64,
                              nut_in_oblq : f64, tru_oblq: f64) -> (f64, f64)
 {
-    let (asc, dec) = (eq_point.asc, eq_point.dec);
-
+    let (asc, dec): (f64, f64) = (eq_point.asc, eq_point.dec); // force inference
     let nut_asc = nut_in_long * (
         tru_oblq.cos()
       + tru_oblq.sin() * asc.sin() * dec.tan()

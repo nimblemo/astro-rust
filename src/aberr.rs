@@ -22,9 +22,9 @@ THE SOFTWARE.
 
 //! Corrections for aberration
 
-use angle;
-use time;
-use coords;
+use crate::angle;
+use crate::time;
+use crate::coords;
 
 /**
 Computes solar aberration in ecliptic longitude
@@ -80,7 +80,7 @@ pub fn stell_aberr_in_eq_coords(stell_eq_point: &coords::EqPoint,
     let mut y = 0.0;
     let mut z = 0.0;
 
-    let mut A;
+    let mut A: f64;
     let mut sinA;
     let mut cosA;
 

@@ -22,10 +22,10 @@ THE SOFTWARE.
 
 //! Mars
 
-use angle;
-use planet;
-use time;
-use coords;
+use crate::angle;
+use crate::planet;
+use crate::time;
+use crate::coords;
 
 /**
 Returns the equatorial coordinates of Mars's north pole for the epoch
@@ -136,7 +136,7 @@ pub fn ephemeris (
 
 ) -> Ephemeris {
 
-    let (mut lambda0, beta0) = (north_pole_ecl_coords.long, north_pole_ecl_coords.lat);
+    let (lambda0, beta0) = (north_pole_ecl_coords.long, north_pole_ecl_coords.lat);
 
     let (l0, b0, R) = planet::heliocent_coords(&planet::Planet::Earth, JD);
 
@@ -161,18 +161,20 @@ pub fn ephemeris (
 
     }
 
-    let (mut lambda, mut beta) = planet::ecl_coords_frm_ecl_rect_coords(x, y, z);
+    let (lambda, beta) = planet::ecl_coords_frm_ecl_rect_coords(x, y, z);
 
+    let (mut lambda0, beta0): (f64, f64) = (lambda0, beta0); // force inference
+    let (mut lambda, mut beta): (f64, f64) = (lambda, beta); // force inference
     let D_e = (
         -beta0.sin() * beta.sin() -
          beta0.cos() * beta.cos() * (lambda0 - lambda).cos()
     ).asin();
 
     let JC = time::julian_cent(JD);
-    let N = (49.5581 + 0.7721*JC).to_radians();
-
-    let l1 = l - (0.00697 / r).to_radians();
-    let b1 = b - (0.000225 * (l - N).cos()/r).to_radians();
+    let N = (49.5581_f64 + 0.7721_f64*JC).to_radians();
+ 
+    let l1 = l - (0.00697_f64 / r).to_radians();
+    let b1: f64 = b - (0.000225_f64 * (l - N).cos()/r).to_radians();
     let D_s = (
         -beta0.sin() * b1.sin()
        - beta0.cos() * b1.cos() * (lambda0 - l1).cos()
@@ -195,6 +197,7 @@ pub fn ephemeris (
       - dec.sin() * dec0.cos()
     ).atan2(dec.cos() * (asc0 - asc).sin());
     let w = W - zeta;
+
 
     lambda += 0.005693_f64.to_radians() * (l0 - lambda).cos()/beta.cos();
     beta += 0.005693_f64.to_radians() * (l0 - lambda).sin() * beta.sin();

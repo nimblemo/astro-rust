@@ -22,11 +22,11 @@ THE SOFTWARE.
 
 //! The Sun
 
-use angle;
-use time;
+use crate::angle;
+use crate::time;
 use std;
-use planet;
-use coords;
+use crate::planet;
+use crate::coords;
 
 /**
 Computes the Sun's equatorial semidiameter
@@ -102,7 +102,7 @@ pub fn ecl_coords_to_FK5(JD: f64, ecl_long: f64, ecl_lat: f64) -> (f64, f64) {
      let JC = time::julian_cent(JD);
      let lambda1 =
          ecl_long
-       - JC * (1.397 + JC*0.00031).to_radians();
+       - JC * (1.397_f64 + JC*0.00031_f64).to_radians();
 
     let ecl_lat_FK5 =
         ecl_lat

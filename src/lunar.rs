@@ -22,9 +22,9 @@ THE SOFTWARE.
 
 //! The Earth's moon
 
-use angle;
-use coords;
-use time;
+use crate::angle;
+use crate::coords;
+use crate::time;
 
 /**
 Computes the equatorial horizontal parallax of the Moon
@@ -287,8 +287,8 @@ pub fn physical_libr (
 ) -> (f64, f64) {
 
     let JC = time::julian_cent(JD);
-    let K1 = (119.75 + 131.849*JC).to_radians();
-    let K2 = (72.560 + 20.186*JC).to_radians();
+    let K1 = (119.75_f64 + 131.849_f64*JC).to_radians();
+    let K2 = (72.560_f64 + 20.186_f64*JC).to_radians();
 
     let long_of_mn_ascend_node = mn_ascend_node(JC);
     let (D, M, M1) = DMM1(JC);
@@ -952,12 +952,11 @@ fn time_of_passage_through_node(k: f64, T: f64) -> f64 {
     let P = sigma + (272.75 - T*2.3).to_radians();
     let V = (299.75 + T*(132.85 - T*0.009173)).to_radians();
 
-    (
-        2451565.1619
+    2451565.1619
       + 27.212220817 * k
       + T * T * (
             0.0002762
-          + T * (0.000000021 - T*0.000000000088)
+          + T * (0.00000214 - T*0.000000016)
         )
       - 0.4721 * M1.sin()
       - 0.1649 * D_times_2.sin()
@@ -983,7 +982,6 @@ fn time_of_passage_through_node(k: f64, T: f64) -> f64 {
           + V.sin()
           + P.sin()
         )
-    )
 
 }
 
@@ -1113,7 +1111,7 @@ pub fn time_of_phase(date: &time::Date, phase: &Phase) -> f64 {
         let W =
             0.00306
           - 0.00038 * E * M.cos()
-          + 0.00026 * M1.cos();
+          + 0.00026 * M1.cos()
           - 0.00002 * ((M1 - M).cos() - (M1 + M).cos() - (2.0 * F).cos());
 
         JD += match phase {
