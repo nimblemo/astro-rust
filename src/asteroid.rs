@@ -20,7 +20,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 */
 
-//! Diameters of ause crate::coords;
+//! Diameters of asteroids
 
 /**
 Computes the diameter of an asteroid

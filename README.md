@@ -1,13 +1,18 @@
-# astro-rust [![](http://meritbadge.herokuapp.com/astro)](https://crates.io/crates/astro) [![](https://travis-ci.org/saurvs/astro-rust.svg?branch=master)](https://travis-ci.org/saurvs/astro-rust) [![](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/saurvs/astro-rust/blob/master/LICENSE.md)
+# astro-rust [![](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/nimblemo/astro-rust/blob/master/LICENSE.md)
 
 **Contents**
 
-[API Docs](https://saurvs.github.io/astro-rust/)
+[API Docs](https://docs.rs/astro-rust/)
 
 * [About](#about)
 * [Usage](#usage)
 * [Contributing](#contributing)
 * [References](#references)
+
+> **Note:** this repository is a maintained fork of [saurvs/astro-rust](https://github.com/saurvs/astro-rust).
+> It is published on crates.io as `astro-rust` (the upstream `astro` crate is unmaintained).
+> Changes against upstream are limited to Rust 2021 compatibility fixes and type-inference cleanups;
+> the astronomical algorithms are unchanged.
 
 ## About
 
@@ -27,16 +32,14 @@ Implemented algorithms include:
 
 ## Usage
 
-* Add the dependency ```astro``` in your ```Cargo.toml```
+* Add the dependency ```astro-rust``` in your ```Cargo.toml```
   ```toml
   [dependencies]
-  astro = "2.0.0"
+  astro-rust = "2.1.0"
   ```
 
 * Include the crate ```astro``` in your code
   ```rust
-  extern crate astro;
-
   use astro::*;
   ```
 
